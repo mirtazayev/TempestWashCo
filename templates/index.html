@@ -1,0 +1,202 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Professional Cleaning Services in Los Angeles{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero py-5 text-white">
+    <div class="container py-4 py-lg-6">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h1 class="display-4 fw-bold mb-4">Professional Pressure Washing Services in Los Angeles</h1>
+                <p class="lead mb-4">Tempest Wash Co brings exceptional cleaning services to homes and businesses
+                    throughout Los Angeles. Our eco-friendly products and trained professionals guarantee spotless
+                    results every time.</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="/contact" class="btn btn-primary btn-lg px-4 py-3">
+                        <i class="fas fa-calendar-check me-2"></i>Book Online
+                    </a>
+                    <a href="tel:+13108002444" class="btn btn-outline-light btn-lg px-4 py-3">
+                        <i class="fas fa-phone me-2"></i>(310) 800-2444
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- Optional image or video -->
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Why Choose Us -->
+    <section class="bg-light py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="section-title position-relative d-inline-block pb-3">Why Choose Tempest Wash Co</h2>
+                <p class="lead text-muted mx-auto" style="max-width: 700px;">We go above and beyond to deliver
+                    exceptional service that exceeds expectations</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-bg bg-primary mb-4">
+                                <i class="fas fa-user-shield fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title">Trusted Professionals</h5>
+                            <p class="card-text">All cleaners are background checked, insured, and trained to the
+                                highest standards.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-bg bg-primary mb-4">
+                                <i class="fas fa-leaf fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title">Eco-Friendly Products</h5>
+                            <p class="card-text">We use environmentally safe cleaning products that are effective and
+                                non-toxic.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-bg bg-primary mb-4">
+                                <i class="fas fa-calendar-check fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title">Flexible Scheduling</h5>
+                            <p class="card-text">Book online 24/7 with our easy scheduling system. Cancel or reschedule
+                                anytime.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-bg bg-primary mb-4">
+                                <i class="fas fa-hand-holding-usd fa-2x text-white"></i>
+                            </div>
+                            <h5 class="card-title">Satisfaction Guarantee</h5>
+                            <p class="card-text">Not satisfied? We'll come back and reclean the area at no extra
+                                cost.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview -->
+    <section class="py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="section-title position-relative d-inline-block pb-3">Our Cleaning Services</h2>
+                <p class="lead text-muted mx-auto" style="max-width: 700px;">Premium cleaning solutions tailored to your
+                    specific needs</p>
+            </div>
+            <div class="row g-4">
+                {% for service in services %}
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="icon-bg bg-primary mb-4">
+                                    <i class="fas {{ service.icon }} fa-2x text-white"></i>
+                                </div>
+                                <h5 class="card-title">{{ service.title }}</h5>
+                                <p class="card-text">{{ service.description }}</p>
+                                <a href="/services#{{ service.id }}" class="btn btn-sm btn-outline-primary mt-2">Learn
+                                    More</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-5">
+                <a href="/services" class="btn btn-primary btn-lg px-4">View All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="bg-light py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="section-title position-relative d-inline-block pb-3">What Our Clients Say</h2>
+                <p class="lead text-muted mx-auto" style="max-width: 700px;">Don't just take our word for it - hear from
+                    our satisfied customers</p>
+            </div>
+            <div class="row g-4">
+                {% for testimonial in testimonials %}
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="client-img rounded-circle overflow-hidden me-3"
+                                         style="width: 60px; height: 60px;">
+                                        <img src="/static/images/{{ testimonial.image }}"
+                                             class="w-100 h-100 object-fit-cover" alt="{{ testimonial.name }}">
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0">{{ testimonial.name }}</h5>
+                                        <div class="text-warning">
+                                            {% for i in range(testimonial.rating) %}
+                                                <i class="fas fa-star"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mb-0 fst-italic">"{{ testimonial.text }}"</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    <h3 class="mb-3">Ready for a spotless space?</h3>
+                    <p class="lead mb-0">Contact us today for a free estimate and experience the Tempest Wash Co
+                        difference!</p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="/contact" class="btn btn-light btn-lg px-4 py-3">Get Free Quote</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Tempest Wash Co",
+        "image": "https://www.tempestwashco.com/static/images/logo.png",
+        "url": "https://www.tempestwashco.com",
+        "telephone": "+13108002444",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1948 20th Street",
+            "addressLocality": "Los Angeles",
+            "addressRegion": "CA",
+            "postalCode": "90404",
+            "addressCountry": "US"
+        },
+        "openingHours": "Mo-Sa 06:30-21:00, Su 09:00-19:00",
+        "priceRange": "$$",
+        "description": "Tempest Wash Co offers professional, eco-friendly pressure washing services for homes and businesses across Los Angeles County.",
+        "sameAs": [
+            "https://www.facebook.com/tempestwashco",
+            "https://www.instagram.com/tempestwashco"
+        ]
+    }
+</script>
