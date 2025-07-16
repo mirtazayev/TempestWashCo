@@ -36,13 +36,13 @@ SERVICES = [
 TESTIMONIALS = [
     {"name": "Sarah Johnson", "rating": 5,
      "text": "Tempest Wash Co did an amazing job on my driveway and patio. Their team was professional, punctual, and used eco-friendly products, which I really appreciate.",
-     "image": "client1.jpg"},
+     "image": "tempestwashco.jpg"},
     {"name": "Michael Rodriguez", "rating": 5,
      "text": "Highly recommend for anyone needing pressure washing in LA!",
-     "image": "client2.jpg"},
+     "image": "tempestwashco.jpg"},
     {"name": "Emma Thompson", "rating": 5,
      "text": "Excellent service from start to finish! The team at Tempest Wash Co was thorough and careful with my home’s exterior. I love that they use environmentally safe cleaning solutions. My house looks spotless!",
-     "image": "client3.jpg"},
+     "image": "tempestwashco.jpg"},
 ]
 
 
