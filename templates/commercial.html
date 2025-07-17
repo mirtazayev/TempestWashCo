@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Commercial Pressure Washing in Los Angeles | Tempest Wash Co{% endblock %}
+
+{% block content %}
+
+    <!-- SEO Meta Tags -->
+    {% block head_extra %}
+        <meta name="description"
+              content="Professional commercial pressure washing services in Los Angeles. Trusted by businesses to clean storefronts, parking lots, buildings & more. Free estimates available.">
+        <meta name="keywords"
+              content="commercial pressure washing Los Angeles, storefront cleaning LA, building washing, parking lot cleaning, Tempest Wash Co">
+        <meta name="author" content="Tempest Wash Co">
+    {% endblock %}
+
+    <section class="section bg-light">
+        <div class="container">
+            <div class="section-title text-center mb-5">
+                <h1 class="fw-bold">Commercial Pressure Washing</h1>
+                <p class="lead text-muted">Keep your business looking its best with our reliable and eco-friendly
+                    commercial pressure washing services in Los Angeles.</p>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="/static/images/commercial.jpg"
+                         alt="Window Cleaning in Los Angeles"
+                         class="img-fluid rounded shadow"
+                         style="max-width: 300px;">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="h5 mb-3">What We Clean</h2>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Storefronts & Sidewalks</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Parking Lots & Garages</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Commercial Buildings</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Dumpster Pads & Loading Docks</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Outdoor Dining Areas</li>
+                    </ul>
+                    <p class="mt-4">
+                        Our commercial service is trusted by businesses across LA to maintain clean, safe, and welcoming
+                        environments. We offer flexible scheduling, after-hours cleaning, and OSHA-compliant processes.
+                    </p>
+                    <a href="/contact" class="btn btn-primary btn-lg mt-3"><i class="fas fa-quote-left me-1"></i>
+                        Request a Free Estimate</a>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="row mt-5 text-center justify-content-center">
+                <div class="col-md-4 d-flex flex-column align-items-center">
+                    <i class="fas fa-calendar-check fa-3x text-primary mb-3"></i>
+                    <h5>1. Schedule a Visit</h5>
+                    <p>Reach out online or by phone to set up a visit. We’ll assess your site and needs quickly.</p>
+                </div>
+                <div class="col-md-4 d-flex flex-column align-items-center">
+                    <i class="fas fa-building fa-3x text-primary mb-3"></i>
+                    <h5>2. We Clean</h5>
+                    <p>Our trained crew arrives with top-tier equipment and works discreetly around your hours.</p>
+                </div>
+                <div class="col-md-4 d-flex flex-column align-items-center">
+                    <i class="fas fa-thumbs-up fa-3x text-primary mb-3"></i>
+                    <h5>3. You Impress</h5>
+                    <p>Enjoy a pristine, professional look that attracts customers and meets city standards.</p>
+                </div>
+            </div>
+
+            <!-- Pricing Section -->
+            <div class="row mt-5 text-center justify-content-center">
+                <!-- Storefront Cleaning -->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm rounded-4 border-0">
+                        <div class="card-body">
+                            <h5 class="card-title">Storefront Cleaning</h5>
+                            <p class="card-text fs-4 fw-bold text-primary">From $99</p>
+                            <ul class="list-unstyled text-muted small">
+                                <li>✔ Up to 30 ft frontage – <strong>$99</strong></li>
+                                <li>✔ 31–60 ft – <strong>$149</strong></li>
+                                <li>✔ After-hours options available</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parking Lot Cleaning -->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm rounded-4 border-0">
+                        <div class="card-body">
+                            <h5 class="card-title">Parking Lots & Garages</h5>
+                            <p class="card-text fs-4 fw-bold text-primary">Custom Quotes</p>
+                            <ul class="list-unstyled text-muted small">
+                                <li>✔ Up to 5,000 sq ft</li>
+                                <li>✔ Oil stain treatment & debris removal</li>
+                                <li>✔ Bundles available with building wash</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Building Exteriors -->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm rounded-4 border-0">
+                        <div class="card-body">
+                            <h5 class="card-title">Building Exteriors</h5>
+                            <p class="card-text fs-4 fw-bold text-primary">From $199</p>
+                            <ul class="list-unstyled text-muted small">
+                                <li>✔ Up to 2 stories – <strong>$199+</strong></li>
+                                <li>✔ Window-safe & OSHA-compliant</li>
+                                <li>✔ Monthly plans available</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="row mt-5">
+                <div class="col text-center">
+                    <h3 class="fw-bold">Make Your Business Shine Again</h3>
+                    <p class="lead text-muted">Schedule a commercial pressure washing today. Competitive rates, flexible
+                        hours, spotless results.</p>
+                    <a href="/contact" class="btn btn-success btn-lg mt-3"><i class="fas fa-phone"></i> Contact Us
+                        Now</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

@@ -58,7 +58,7 @@ async def home(request: Request):
 
 @app.get("/about", response_class=HTMLResponse)
 async def about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request})
+    return templates.TemplateResponse("about_us.html", {"request": request})
 
 
 @app.get("/services", response_class=HTMLResponse)
@@ -69,31 +69,24 @@ async def services(request: Request):
     })
 
 
-@app.get("/contact", response_class=HTMLResponse)
-async def contact(request: Request):
-    return templates.TemplateResponse("contact.html", {"request": request})
+@app.get("/services/residential", response_class=HTMLResponse)
+async def services_residential(request: Request):
+    return templates.TemplateResponse("residential.html", {"request": request})
 
 
-@app.post("/submit-contact")
-async def submit_contact(
-        request: Request,
-        name: str = Form(...),
-        email: str = Form(...),
-        phone: str = Form(...),
-        service: str = Form(...),
-        message: str = Form("")
-):
-    # In a real application, you would save this to a database and send an email
-    print(f"New contact submission: {name} <{email}>, Phone: {phone}, Service: {service}")
-    if message:
-        print(f"Message: {message}")
-
-    return RedirectResponse(url="/contact-success", status_code=303)
+@app.get("/services/commercial", response_class=HTMLResponse)
+async def services_commercial(request: Request):
+    return templates.TemplateResponse("commercial.html", {"request": request})
 
 
-@app.get("/contact-success", response_class=HTMLResponse)
-async def contact_success(request: Request):
-    return templates.TemplateResponse("contact_success.html", {"request": request})
+@app.get("/services/window-cleaning", response_class=HTMLResponse)
+async def services_window_cleaning(request: Request):
+    return templates.TemplateResponse("window-cleaning.html", {"request": request})
+
+
+# @app.get("/contact", response_class=HTMLResponse)
+# async def contact(request: Request):
+#     return templates.TemplateResponse("contact.html", {"request": request})
 
 
 # 404 Error Handler
