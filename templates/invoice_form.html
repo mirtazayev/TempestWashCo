@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Create Invoice</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 15px;
+    padding: 0;
+    background: #f9f9f9;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    color: #0066cc;
+    margin-bottom: 20px;
+  }
+  form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  }
+  label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  textarea {
+    resize: vertical;
+  }
+  h3 {
+    margin-top: 25px;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 6px;
+    color: #0066cc;
+  }
+  #services-container > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+    align-items: center;
+  }
+  #services-container input[type="text"] {
+    flex: 2 1 50%;
+  }
+  #services-container input[type="number"] {
+    flex: 1 1 20%;
+  }
+  #services-container button {
+    flex: 0 0 auto;
+    padding: 6px 14px;
+    background: #cc0000;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  #services-container button:hover {
+    background: #a30000;
+  }
+  button[type="button"].add-service {
+    background: #0066cc;
+    color: white;
+    margin-top: 15px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background 0.3s ease;
+  }
+  button[type="button"].add-service:hover {
+    background: #004a99;
+  }
+  button[type="submit"] {
+    margin-top: 30px;
+    background: #009933;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 7px;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button[type="submit"]:hover {
+    background: #006622;
+  }
+  @media (max-width: 480px) {
+    #services-container > div {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    #services-container input[type="text"],
+    #services-container input[type="number"],
+    #services-container button {
+      flex: 1 1 100%;
+    }
+    button[type="button"].add-service,
+    button[type="submit"] {
+      max-width: 100%;
+    }
+  }
+</style>
+<script>
+  function addServiceRow() {
+    const container = document.getElementById('services-container');
+    const row = document.createElement('div');
+    row.innerHTML = `
+      <input type="text" name="service_desc" placeholder="Description" required />
+      <input type="number" name="quantity" min="1" value="1" required />
+      <input type="number" step="0.01" name="unit_price" min="0" placeholder="Unit Price" required />
+      <button type="button" onclick="this.parentElement.remove()" aria-label="Remove service">Remove</button>
+    `;
+    container.appendChild(row);
+  }
+</script>
+</head>
+<body>
+
+<h1>Create Invoice</h1>
+<form method="post" action="/generate_pdf">
+  <label for="invoice_number">Invoice Number:</label>
+  <input type="text" id="invoice_number" name="invoice_number" placeholder="e.g. 1034" required />
+
+  <label for="customer_name">Name:</label>
+  <input type="text" id="customer_name" name="customer_name" required />
+
+  <label for="customer_address">Address:</label>
+  <textarea id="customer_address" name="customer_address" rows="3" required></textarea>
+
+  <label for="customer_phone">Phone:</label>
+  <input type="text" id="customer_phone" name="customer_phone" required />
+
+  <label for="customer_email">Email:</label>
+  <input type="email" id="customer_email" name="customer_email" required />
+
+
+  <h3>Services</h3>
+  <div id="services-container">
+    <div>
+      <input type="text" name="service_desc" placeholder="Description" required />
+      <input type="number" name="quantity" min="1" value="1" required />
+      <input type="number" step="0.01" name="unit_price" min="0" placeholder="Unit Price" required />
+      <button type="button" onclick="this.parentElement.remove()" aria-label="Remove service">Remove</button>
+    </div>
+  </div>
+
+  <button type="button" class="add-service" onclick="addServiceRow()">+ Add Service</button>
+
+  <button type="submit">Generate PDF</button>
+</form>
+
+</body>
+</html>
