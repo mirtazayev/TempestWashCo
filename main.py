@@ -4,7 +4,7 @@ import base64
 import smtplib
 from datetime import datetime
 from email.message import EmailMessage
-from typing import List
+from typing import List, Optional
 
 import aiosmtplib
 import uvicorn
@@ -18,6 +18,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import JSONResponse
 
 from services.invoice_func import generate_pdf
+from services.quoting_func import calculate_quote
 
 app = FastAPI(
     title="Tempest Wash Co Cleaning Services",
@@ -45,6 +46,68 @@ SMTP_PORT = 587
 SMTP_USER = "info@tempestwashco.com"
 SMTP_PASS = "zsnu tnqj nkzj jwgt "
 RECEIVER_EMAIL = "mirtazayev.2004@gmail.com"
+
+
+def create_quote_email(to_email: str, total: float, breakdown: str, message: str) -> EmailMessage:
+    breakdown_html = "".join(f"<li>{line}</li>" for line in breakdown)
+    breakdown_text = "\n".join(f"- {line}" for line in breakdown)
+
+    email = EmailMessage()
+    email['Subject'] = "Your Tempest Wash Co Quote - Valid for 7 Days"
+    email['From'] = "info@tempestwashco.com"  # Change to your sender email
+    email['To'] = to_email
+
+    email.set_content(f"""
+Hi,
+
+Thank you for requesting a quote from Tempest Wash Co!
+
+Here is your estimated price based on the details you provided:
+
+Total Estimated Cost: ${total}
+
+Breakdown:
+{breakdown_text}
+
+Additional Details:
+{message if message else 'No additional details provided.'}
+
+Please note: If the information you entered is accurate, this quote is valid for 7 days and will not change during this period.
+
+Feel free to contact us if you have any questions or want to schedule your service.
+
+Best regards,
+Tempest Wash Co Team
+Phone: (310) 800-2444
+Email: info@tempestwashco.com
+Website: https://www.tempestwashco.com
+""")
+
+    # Also set HTML alternative for nicer formatting
+    email.add_alternative(f"""
+<html>
+  <body style="font-family: Arial, sans-serif; color: #333;">
+    <h2>Thank you for requesting a quote from Tempest Wash Co!</h2>
+    <p>Here is your estimated price based on the details you provided:</p>
+    <p><strong>Total Estimated Cost: ${total}</strong></p>
+    <h3>Breakdown:</h3>
+    <ul>
+      {breakdown_html}
+    </ul>
+    <h3>Additional Details:</h3>
+    <p>{message if message else 'No additional details provided.'}</p>
+    <p><em>Please note:</em> If the information you entered is accurate, this quote is valid for <strong>7 days</strong> and will not change during this period.</p>
+    <p>If you have any questions or want to schedule your service, please contact us anytime.</p>
+    <p>Best regards,<br>
+    <strong>Tempest Wash Co Team</strong><br>
+    Phone: (310) 800-2444<br>
+    Email: <a href="mailto:info@tempestwashco.com">info@tempestwashco.com</a><br>
+    Website: <a href="https://www.tempestwashco.com">www.tempestwashco.com</a></p>
+  </body>
+</html>
+""", subtype='html')
+
+    return email
 
 
 def send_email(contact: ContactForm):
@@ -159,7 +222,7 @@ SERVICES_ = [
      "description": "Storefronts, parking lots, warehouses, signage, and heavy-traffic concrete areas, spotless and professional."},
     {"id": "deep", "title": "Soft Washing", "icon": "fa-broom",
      "description": "Safe and effective cleaning for roofs, stucco, painted wood, and delicate surfaces."},
-    {"id": "window", "title": "Window Cleaning", "icon": "fa-window-restore",
+    {"id": "window-cleaning", "title": "Window Cleaning", "icon": "fa-window-restore",
      "description": "Crystal-clear, streak-free window cleaning  interior and exterior."},
 ]
 
@@ -175,6 +238,19 @@ TESTIMONIALS = [
      "text": "Excellent service from start to finish! The team at Tempest Wash Co was thorough and careful with my home’s exterior. I love that they use environmentally safe cleaning solutions. My house looks spotless!",
      "image": "tempestwashco.jpg"},
 ]
+
+RATES = {
+    "house_1story": 0.25,  # per sq ft
+    "house_2story": 0.35,
+    "driveway_base": 129,  # flat up to 400 sq ft
+    "driveway_rate": 0.35,  # per sq ft over 400
+    "sidewalk_linear": 1.50,  # per linear ft
+    "sidewalk_area": 0.40,  # per sq ft
+    "patio": 0.40,  # per sq ft
+    "fence": 2.50,  # per linear ft
+    "gutter": 2.00,  # per linear ft
+    "roof": 0.45,  # per sq ft
+}
 
 
 @app.middleware("http")
@@ -252,6 +328,116 @@ async def verify_code(request: Request, code: str = Form(...)):
         return RedirectResponse(url="/invoice", status_code=303)
     else:
         return templates.TemplateResponse("verify.html", {"request": request, "error": "Invalid passcode"})
+
+
+@app.get("/quote", response_class=HTMLResponse)
+async def get_quote_form(request: Request):
+    return templates.TemplateResponse("quote_form.html", {"request": request})
+
+
+@app.post("/quote", response_class=HTMLResponse)
+async def post_quote(
+        request: Request,
+        email: str = Form(...),
+        services: Optional[List[str]] = Form(None),
+        house1_sqft: Optional[float] = Form(0),
+        house2_sqft: Optional[float] = Form(0),
+        driveway_sqft: Optional[float] = Form(0),
+        sidewalk_linear_ft: Optional[float] = Form(0),
+        sidewalk_sqft: Optional[float] = Form(0),
+        patio_sqft: Optional[float] = Form(0),
+        fence_ft: Optional[float] = Form(0),
+        gutter_ft: Optional[float] = Form(0),
+        roof_sqft: Optional[float] = Form(0),
+        message: Optional[str] = Form(""),
+):
+    # Defensive cleanup and defaults
+    if services is None:
+        services = []
+
+    total = 0.0
+    breakdown = []
+
+    # House 1-story
+    if "house_1story" in services and house1_sqft:
+        cost = house1_sqft * RATES["house_1story"]
+        total += cost
+        breakdown.append(f"1-story house ({house1_sqft} sq.ft.): ${cost:.2f}")
+
+    # House 2-story
+    if "house_2story" in services and house2_sqft:
+        cost = house2_sqft * RATES["house_2story"]
+        total += cost
+        breakdown.append(f"2-story house ({house2_sqft} sq.ft.): ${cost:.2f}")
+
+    # Driveway
+    if "driveway" in services and driveway_sqft:
+        if driveway_sqft <= 400:
+            cost = RATES["driveway_base"]
+        else:
+            cost = RATES["driveway_base"] + (driveway_sqft - 400) * RATES["driveway_rate"]
+        total += cost
+        breakdown.append(f"Driveway ({driveway_sqft} sq.ft.): ${cost:.2f}")
+
+    # Sidewalk (linear feet)
+    if "sidewalk" in services and sidewalk_linear_ft:
+        cost = sidewalk_linear_ft * RATES["sidewalk_linear"]
+        total += cost
+        breakdown.append(f"Sidewalk length ({sidewalk_linear_ft} ft): ${cost:.2f}")
+
+    # Sidewalk (area)
+    if "sidewalk" in services and sidewalk_sqft:
+        cost = sidewalk_sqft * RATES["sidewalk_area"]
+        total += cost
+        breakdown.append(f"Sidewalk area ({sidewalk_sqft} sq.ft.): ${cost:.2f}")
+
+    # Patio
+    if "patio" in services and patio_sqft:
+        cost = patio_sqft * RATES["patio"]
+        total += cost
+        breakdown.append(f"Patio ({patio_sqft} sq.ft.): ${cost:.2f}")
+
+    # Fence
+    if "fence" in services and fence_ft:
+        cost = fence_ft * RATES["fence"]
+        total += cost
+        breakdown.append(f"Fence ({fence_ft} ft): ${cost:.2f}")
+
+    # Gutter
+    if "gutter" in services and gutter_ft:
+        cost = gutter_ft * RATES["gutter"]
+        total += cost
+        breakdown.append(f"Gutter ({gutter_ft} ft): ${cost:.2f}")
+
+    # Roof
+    if "roof" in services and roof_sqft:
+        cost = roof_sqft * RATES["roof"]
+        total += cost
+        breakdown.append(f"Roof wash ({roof_sqft} sq.ft.): ${cost:.2f}")
+
+    email_msg = create_quote_email(email, total, breakdown, message)
+
+    # Send email via your SMTP server
+    try:
+        await aiosmtplib.send(
+            email_msg,
+            hostname=SMTP_SERVER,
+            port=587,
+            start_tls=True,
+            username=SMTP_USER,
+            password=SMTP_PASS,
+        )
+    except Exception as e:
+        print("Email sending failed:", e)
+    return templates.TemplateResponse(
+        "quote_form.html",
+        {
+            "request": request,
+            "success": True,
+            "total": f"{total:.2f}",
+            "breakdown": breakdown,
+        },
+    )
 
 
 @app.get("/invoice", response_class=HTMLResponse)

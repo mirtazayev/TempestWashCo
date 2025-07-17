@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}Get a Quote - Tempest Wash Co{% endblock %}
+
+{% block content %}
+    <section class="py-5 bg-white">
+        <div class="container" style="max-width: 650px;">
+            <h2 class="text-center mb-4 text-dark fw-bold">Get Your Free Quote</h2>
+
+            {% if success %}
+                <div class="alert alert-success text-center" role="alert">
+                    ✅ Your quote has been emailed! Estimated total: <strong>${{ total }}</strong>
+                </div>
+                <div class="mb-3">
+                    <h5>Quote Breakdown:</h5>
+                    <ul>
+                        {% for line in breakdown %}
+                            <li>{{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+           <form id="quoteForm" method="post" class="bg-light p-4 rounded shadow-sm" novalidate onsubmit="handleSubmit(event)">
+                <!-- Step 1: Email -->
+                <div class="form-step active">
+                    <h4 class="mb-3">Step 1: Your Email</h4>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold">Email Address <span
+                                class="text-danger">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required
+                               class="form-control"/>
+                        <div class="form-text">We will send your quote here.</div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+                </div>
+
+                <!-- Step 2: Select Services -->
+                <div class="form-step">
+                    <h4 class="mb-3">Step 2: Choose Service(s)</h4>
+
+                    <div class="mb-4">
+                        <strong>Pricing info (per unit):</strong>
+                        <ul>
+                            <li>1-story house: $0.25/sq.ft. (e.g. $250 per 1,000 sq.ft.)</li>
+                            <li>2-story house: $0.35/sq.ft. (e.g. $700 per 2,000 sq.ft.)</li>
+                            <li>Driveway: $129 up to 400 sq.ft., then $0.35/sq.ft. over 400</li>
+                            <li>Sidewalk: $1.50 per linear ft. or $0.40 per sq.ft.</li>
+                            <li>Patio: $0.40/sq.ft.</li>
+                            <li>Fence: $2.50 per linear ft.</li>
+                            <li>Gutter Cleaning: $2.00 per linear ft.</li>
+                            <li>Roof Wash (soft wash): $0.45/sq.ft.</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="serviceHouse1" name="services"
+                                   value="house_1story"/>
+                            <label class="form-check-label" for="serviceHouse1">House (1-story)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="serviceHouse2" name="services"
+                                   value="house_2story"/>
+                            <label class="form-check-label" for="serviceHouse2">House (2-story)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="serviceDriveway" name="services"
+                                   value="driveway"/>
+                            <label class="form-check-label" for="serviceDriveway">Driveway Cleaning</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="serviceSidewalk" name="services"
+                                   value="sidewalk"/>
+                            <label class="form-check-label" for="serviceSidewalk">Sidewalk Cleaning</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="servicePatio" name="services"
+                                   value="patio"/>
+                            <label class="form-check-label" for="servicePatio">Patio Cleaning</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="serviceFence" name="services"
+                                   value="fence"/>
+                            <label class="form-check-label" for="serviceFence">Fence Cleaning</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="serviceGutter" name="services"
+                                   value="gutter"/>
+                            <label class="form-check-label" for="serviceGutter">Gutter Cleaning</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="serviceRoof" name="services"
+                                   value="roof"/>
+                            <label class="form-check-label" for="serviceRoof">Roof Wash (Soft Wash)</label>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary me-2" onclick="prevStep()">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+                </div>
+
+                <!-- Step 3: Sizes -->
+                <div class="form-step">
+                    <h4 class="mb-3">Step 3: Provide Sizes for Selected Services</h4>
+
+                    <div id="house1Input" class="service-size d-none mb-3">
+                        <label for="house1_sqft" class="form-label fw-semibold">House (1-story) Size (sq.ft.)</label>
+                        <input type="number" id="house1_sqft" name="house1_sqft" placeholder="e.g. 1000" min="0"
+                               step="1" class="form-control"/>
+                    </div>
+
+                    <div id="house2Input" class="service-size d-none mb-3">
+                        <label for="house2_sqft" class="form-label fw-semibold">House (2-story) Size (sq.ft.)</label>
+                        <input type="number" id="house2_sqft" name="house2_sqft" placeholder="e.g. 2000" min="0"
+                               step="1" class="form-control"/>
+                    </div>
+
+                    <div id="drivewayInput" class="service-size d-none mb-3">
+                        <label for="driveway_sqft" class="form-label fw-semibold">Driveway Size (sq.ft.)</label>
+                        <input type="number" id="driveway_sqft" name="driveway_sqft" placeholder="e.g. 400" min="0"
+                               step="1" class="form-control"/>
+                        <div class="form-text">Up to 400 sq.ft. is $129 flat; over 400 sq.ft. priced per sq.ft.</div>
+                    </div>
+
+                    <div id="sidewalkInputLinear" class="service-size d-none mb-3">
+                        <label for="sidewalk_linear_ft" class="form-label fw-semibold">Sidewalk Length (linear
+                            ft.)</label>
+                        <input type="number" id="sidewalk_linear_ft" name="sidewalk_linear_ft" placeholder="e.g. 50"
+                               min="0" step="1" class="form-control"/>
+                        <div class="form-text">OR</div>
+                    </div>
+
+                    <div id="sidewalkInputArea" class="service-size d-none mb-3">
+                        <label for="sidewalk_sqft" class="form-label fw-semibold">Sidewalk Area (sq.ft.)</label>
+                        <input type="number" id="sidewalk_sqft" name="sidewalk_sqft" placeholder="e.g. 200" min="0"
+                               step="1" class="form-control"/>
+                    </div>
+
+                    <div id="patioInput" class="service-size d-none mb-3">
+                        <label for="patio_sqft" class="form-label fw-semibold">Patio Size (sq.ft.)</label>
+                        <input type="number" id="patio_sqft" name="patio_sqft" placeholder="e.g. 150" min="0" step="1"
+                               class="form-control"/>
+                    </div>
+
+                    <div id="fenceInput" class="service-size d-none mb-3">
+                        <label for="fence_ft" class="form-label fw-semibold">Fence Length (linear ft.)</label>
+                        <input type="number" id="fence_ft" name="fence_ft" placeholder="e.g. 100" min="0" step="1"
+                               class="form-control"/>
+                    </div>
+
+                    <div id="gutterInput" class="service-size d-none mb-3">
+                        <label for="gutter_ft" class="form-label fw-semibold">Gutter Length (linear ft.)</label>
+                        <input type="number" id="gutter_ft" name="gutter_ft" placeholder="e.g. 60" min="0" step="1"
+                               class="form-control"/>
+                    </div>
+
+                    <div id="roofInput" class="service-size d-none mb-3">
+                        <label for="roof_sqft" class="form-label fw-semibold">Roof Size (sq.ft.)</label>
+                        <input type="number" id="roof_sqft" name="roof_sqft" placeholder="e.g. 2000" min="0" step="1"
+                               class="form-control"/>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary me-2" onclick="prevStep()">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+                </div>
+
+                <!-- Step 4: Additional Message -->
+                <div class="form-step">
+                    <h4 class="mb-3">Step 4: Additional Details</h4>
+                    <div class="mb-3">
+                        <label for="message" class="form-label fw-semibold">Anything else you'd like us to know?</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Special requests or info"
+                                  class="form-control"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-secondary me-2" onclick="prevStep()">Back</button>
+                    <button type="submit" class="btn btn-success">Get Quote</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        const steps = document.querySelectorAll('.form-step');
+        let currentStep = 0;
+
+        function showStep(step) {
+            steps.forEach((el, i) => {
+                el.classList.toggle('active', i === step);
+            });
+        }
+
+        function nextStep() {
+            if (!validateStep(currentStep)) return;
+            currentStep++;
+            if (currentStep >= steps.length) currentStep = steps.length - 1;
+            updateSizesVisibility();
+            showStep(currentStep);
+        }
+
+        function prevStep() {
+            currentStep--;
+            if (currentStep < 0) currentStep = 0;
+            updateSizesVisibility();
+            showStep(currentStep);
+        }
+
+        function validateStep(step) {
+            if (step === 0) {
+                const email = document.getElementById('email');
+                if (!email.value || !email.checkValidity()) {
+                    alert('Please enter a valid email address.');
+                    email.focus();
+                    return false;
+                }
+            }
+            if (step === 1) {
+                const services = [...document.querySelectorAll('input[name="services"]:checked')];
+                if (services.length === 0) {
+                    alert('Please select at least one service.');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function updateSizesVisibility() {
+            const selectedServices = [...document.querySelectorAll('input[name="services"]:checked')].map(s => s.value);
+            document.querySelectorAll('.service-size').forEach(div => div.classList.add('d-none'));
+
+            if (currentStep === 2) {
+                selectedServices.forEach(service => {
+                    if (service === 'house_1story') document.getElementById('house1Input').classList.remove('d-none');
+                    if (service === 'house_2story') document.getElementById('house2Input').classList.remove('d-none');
+                    if (service === 'driveway') document.getElementById('drivewayInput').classList.remove('d-none');
+                    if (service === 'sidewalk') {
+                        document.getElementById('sidewalkInputLinear').classList.remove('d-none');
+                        document.getElementById('sidewalkInputArea').classList.remove('d-none');
+                    }
+                    if (service === 'patio') document.getElementById('patioInput').classList.remove('d-none');
+                    if (service === 'fence') document.getElementById('fenceInput').classList.remove('d-none');
+                    if (service === 'gutter') document.getElementById('gutterInput').classList.remove('d-none');
+                    if (service === 'roof') document.getElementById('roofInput').classList.remove('d-none');
+                });
+            }
+        }
+
+        function handleSubmit(event) {
+            const form = event.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Quoting... Please give us a second";
+        }
+
+        // Initialize form steps as you had
+        showStep(currentStep);
+    </script>
+
+    <style>
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+    </style>
+{% endblock %}
