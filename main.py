@@ -177,6 +177,15 @@ TESTIMONIALS = [
 ]
 
 
+@app.middleware("http")
+async def redirect_to_www(request: Request, call_next):
+    host = request.headers.get("host", "")
+    if host.lower() == "tempestwashco.com":
+        url = request.url.replace(netloc="www.tempestwashco.com")
+        return RedirectResponse(url=str(url), status_code=301)
+    return await call_next(request)
+
+
 # Routes
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -333,15 +342,6 @@ async def send_email_endpoint(
 @app.exception_handler(404)
 async def not_found_handler(request: Request, exc):
     return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
-
-
-@app.middleware("http")
-async def redirect_to_www(request: Request, call_next):
-    host = request.headers.get("host", "")
-    if host == "tempestwashco.com":
-        url = request.url.replace(netloc="www.tempestwashco.com")
-        return RedirectResponse(url=str(url), status_code=301)
-    return await call_next(request)
 
 
 if __name__ == "__main__":
