@@ -330,6 +330,11 @@ async def verify_code(request: Request, code: str = Form(...)):
         return templates.TemplateResponse("verify.html", {"request": request, "error": "Invalid passcode"})
 
 
+@app.get("/how-to-estimate", response_class=HTMLResponse)
+async def how_to_estimate(request: Request):
+    return templates.TemplateResponse("how_to_estimate.html", {"request": request})
+
+
 @app.get("/quote", response_class=HTMLResponse)
 async def get_quote_form(request: Request):
     return templates.TemplateResponse("quote_form.html", {"request": request})
