@@ -3,112 +3,123 @@
 {% block title %}Contact Us | Tempest Wash Co | Pressure Washing in Los Angeles{% endblock %}
 
 {% block content %}
-<section class="section contact-section py-5" style="background-color: #f8f9fa;">
-  <div class="container">
+    <section class="section contact-section py-5" style="background-color: #f8f9fa;">
+        <div class="container">
 
-    <!-- Header -->
-    <div class="text-center mb-5">
-      <h1 class="fw-bold">Contact Tempest Wash Co</h1>
-      <p class="lead text-muted">
-        Premium pressure washing across Los Angeles & the Westside. Send a message or call us now!
-      </p>
-    </div>
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">Contact Tempest Wash Co</h1>
+                <p class="lead text-muted">
+                    Premium pressure washing across Los Angeles & the Westside. Send a message or call us now!
+                </p>
+            </div>
 
-    <!-- Form -->
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
+            <!-- Form -->
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
 
-        <form id="contactForm" method="post" action="/contact" novalidate class="p-4 bg-white shadow-sm rounded-4">
-          <div class="mb-3">
-            <label for="name" class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control rounded-3" id="name" name="name" placeholder="John Doe" required>
-          </div>
+                    <form id="contactForm" method="post" action="/contact" novalidate
+                          class="p-4 bg-white shadow-sm rounded-4">
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-semibold">Full Name <span
+                                    class="text-danger">*</span></label>
+                            <input type="text" class="form-control rounded-3" id="name" name="name"
+                                   placeholder="John Doe" required>
+                        </div>
 
-          <div class="mb-3">
-            <label for="email" class="form-label fw-semibold">Email Address <span class="text-danger">*</span></label>
-            <input type="email" class="form-control rounded-3" id="email" name="email" placeholder="you@example.com" required>
-          </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">Email Address <span
+                                    class="text-danger">*</span></label>
+                            <input type="email" class="form-control rounded-3" id="email" name="email"
+                                   placeholder="you@example.com" required>
+                        </div>
 
-          <div class="mb-3">
-            <label for="phone" class="form-label fw-semibold">Phone Number <span class="text-danger">*</span></label>
-            <input type="tel" class="form-control rounded-3" id="phone" name="phone" placeholder="(310) 555-1234" required>
-            <div class="form-text">We’ll call or text to confirm your service request.</div>
-          </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label fw-semibold">Phone Number <span
+                                    class="text-danger">*</span></label>
+                            <input type="tel" class="form-control rounded-3" id="phone" name="phone"
+                                   placeholder="(310) 555-1234" required>
+                            <div class="form-text">We’ll call or text to confirm your service request.</div>
+                        </div>
 
-          <div class="mb-4">
-            <label for="message" class="form-label fw-semibold">Your Message </label>
-            <textarea class="form-control rounded-3" id="message" name="message" rows="4" placeholder="Driveway cleaning in Santa Monica... need estimate" ></textarea>
-          </div>
+                        <div class="mb-4">
+                            <label for="message" class="form-label fw-semibold">Your Message </label>
+                            <textarea class="form-control rounded-3" id="message" name="message" rows="4"
+                                      placeholder="Driveway cleaning in Santa Monica... need estimate"></textarea>
+                        </div>
 
-          <button type="submit" id="submitBtn" class="btn btn-primary w-100 btn-lg rounded-pill transition">
-            Send Message
-          </button>
+                        <button type="submit" id="submitBtn"
+                                class="btn btn-primary w-100 btn-lg rounded-pill transition">
+                            Send Message
+                        </button>
 
-          <div class="text-center mt-3" id="formResponse" style="font-weight:600;color:var(--primary);"></div>
-        </form>
+                        <div class="text-center mt-3" id="formResponse"
+                             style="font-weight:600;color:var(--primary);"></div>
+                    </form>
 
-        <!-- CTA -->
-        <div class="text-center mt-5">
-          <a href="tel:+13108002444" class="btn btn-outline-primary btn-lg rounded-pill px-4 mb-3">
-            <i class="fas fa-phone me-2"></i> Call (310) 800-2444
-          </a>
-          <p class="mb-0">
-            Prefer email? <a href="mailto:info@tempestwashco.com" class="text-decoration-none">info@tempestwashco.com</a>
-          </p>
+                    <!-- CTA -->
+                    <div class="text-center mt-5">
+                        <a href="tel:+13108002444" class="btn btn-outline-primary btn-lg rounded-pill px-4 mb-3">
+                            <i class="fas fa-phone me-2"></i> Call (310) 800-2444
+                        </a>
+                        <p class="mb-0">
+                            Prefer email? <a href="mailto:info@tempestwashco.com" class="text-decoration-none">info@tempestwashco.com</a>
+                        </p>
+                    </div>
+
+                    <!-- SEO-friendly details -->
+                    <div class="text-center mt-4 small text-muted">
+                        <p class="mb-1"><strong>Business Hours:</strong> Mon-Sat 6:30 AM - 9:00 PM</p>
+                        <p class="mb-0"><strong>Response Time:</strong> Most messages answered within 2 hrs (same hours
+                            possible).</p>
+                    </div>
+
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- SEO-friendly details -->
-        <div class="text-center mt-4 small text-muted">
-          <p class="mb-1"><strong>Business Hours:</strong> Mon-Sat 6:30 AM - 9:00 PM</p>
-          <p class="mb-0"><strong>Response Time:</strong> Most messages answered within 2 hrs (same hours possible).</p>
-        </div>
+    <script>
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formResponse = document.getElementById('formResponse');
 
-      </div>
-    </div>
-  </div>
-</section>
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-<script>
-  const form = document.getElementById('contactForm');
-  const submitBtn = document.getElementById('submitBtn');
-  const formResponse = document.getElementById('formResponse');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            formResponse.textContent = '';
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
-    formResponse.textContent = '';
+            try {
+                const response = await fetch('/contact', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data),
+                });
 
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      const response = await fetch('/contact', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        submitBtn.textContent = 'Sent!';
-        formResponse.textContent = '🎉 Thank you! We’ll be in touch shortly.';
-        form.reset();
-      } else {
-        submitBtn.textContent = 'Send Message';
-        formResponse.textContent = '❌ Something went wrong. Please try again.';
-      }
-    } catch (error) {
-      submitBtn.textContent = 'Send Message';
-      formResponse.textContent = '⚠️ Network error. Please try again.';
-    } finally {
-      submitBtn.disabled = false;
-    }
-  });
-</script>
+                if (response.ok) {
+                    submitBtn.textContent = 'Sent!';
+                    formResponse.textContent = '🎉 Thank you! We’ll be in touch shortly.';
+                    form.reset();
+                } else {
+                    submitBtn.textContent = 'Send Message';
+                    formResponse.textContent = '❌ Something went wrong. Please try again.';
+                }
+            } catch (error) {
+                submitBtn.textContent = 'Send Message';
+                formResponse.textContent = '⚠️ Network error. Please try again.';
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 {% endblock %}

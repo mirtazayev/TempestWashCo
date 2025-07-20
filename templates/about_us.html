@@ -1,75 +1,192 @@
 {% extends "base.html" %}
-{% block title %}About Tempest Wash Co | Pressure Washing Experts in Los Angeles{% endblock %}
+{% block title %}About Tempest Wash Co | Pressure Washing Experts in Los Angeles, LA County & OC{% endblock %}
 
 {% block content %}
 
-<!-- SEO Meta Tags -->
-{% block head_extra %}
-<meta name="description" content="Learn about Tempest Wash Co, a top-rated pressure washing company in Los Angeles. We specialize in eco-friendly driveway, patio, and exterior surface cleaning. Satisfaction guaranteed.">
-<meta name="keywords" content="pressure washing Los Angeles, eco-friendly power washing, driveway cleaning, Tempest Wash Co, patio cleaning LA, local pressure washing company">
-<meta name="author" content="Tempest Wash Co">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Tempest Wash Co",
-  "image": "https://tempestwashco.com/static/images/about-us.jpg",
-  "url": "https://tempestwashco.com",
-  "telephone": "+1-XXX-XXX-XXXX",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "1234 LA Street",
-    "addressLocality": "Los Angeles",
-    "addressRegion": "CA",
-    "postalCode": "90001",
-    "addressCountry": "US"
-  },
-  "priceRange": "$$",
-  "servesCuisine": "N/A",
-  "openingHours": "Mo-Su 08:00-20:00"
-}
-</script>
-{% endblock %}
+    <!-- SEO Meta Tags -->
+    {% block head_extra %}
+        <meta name="description"
+              content="Tempest Wash Co is a top-rated eco-friendly pressure washing company serving Los Angeles, LA County, and Orange County. We clean driveways, patios, homes, buildings, and more—always with care.">
+        <meta name="keywords"
+              content="pressure washing Los Angeles, driveway cleaning LA, house soft washing, Santa Monica power washing, Sherman Oaks exterior washing, Beverly Hills roof washing, Long Beach patio pressure washing, Culver City graffiti removal, Inglewood commercial washing, Marina del Rey pressure cleaning, Orange County soft wash, LA County pressure washing experts">
+        <meta name="author" content="Tempest Wash Co">
+        <link rel="canonical" href="https://tempestwashco.com/about">
 
-<section class="section bg-light">
-    <div class="container">
-        <div class="section-title text-center mb-5">
-            <h1 class="fw-bold">About Tempest Wash Co</h1>
-            <p class="lead text-muted">Los Angeles' Trusted Name in Eco-Friendly Pressure Washing</p>
-        </div>
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <img src="/static/images/tempestwashco.jpg" alt="Professional pressure washing in Los Angeles" class="img-fluid rounded shadow">
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "LocalBusiness",
+                "name": "Tempest Wash Co",
+                "image": "https://tempestwashco.com/static/images/about-us.jpg",
+                "@id": "https://tempestwashco.com",
+                "url": "https://tempestwashco.com",
+                "telephone": "+1-310-800-2444",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "1948 20th St",
+                    "addressLocality": "Santa Monica",
+                    "addressRegion": "CA",
+                    "postalCode": "90404",
+                    "addressCountry": "US"
+                },
+                "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 34.0522,
+                    "longitude": -118.2437
+                },
+                "priceRange": "$$",
+                "openingHours": "Mo-Su 06:30-21:00",
+                "areaServed": [
+                    {
+                        "@type": "Place",
+                        "name": "Los Angeles"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Santa Monica"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Culver City"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Inglewood"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "West Los Angeles"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Venice"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Marina del Rey"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Sherman Oaks"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Beverly Hills"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "West Hollywood"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Pasadena"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Long Beach"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Torrance"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Glendale"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Orange County"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Anaheim"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Irvine"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Huntington Beach"
+                    },
+                    {
+                        "@type": "Place",
+                        "name": "Costa Mesa"
+                    }
+                ],
+                "sameAs": [
+                    "https://www.facebook.com/tempestwashco",
+                    "https://www.instagram.com/tempestwashco"
+                ]
+            }
+        </script>
+    {% endblock %}
+
+    <section class="section bg-light">
+        <div class="container">
+            <div class="section-title text-center mb-5">
+                <h1 class="fw-bold">About Tempest Wash Co</h1>
+                <p class="lead text-muted">Los Angeles' Trusted Name in Eco-Friendly Pressure Washing</p>
             </div>
-            <div class="col-lg-6">
-                <h2 class="h4 mb-3">Our Story</h2>
-                <p>
-                    Founded by two passionate professionals, Tempest Wash Co began with a mission to deliver cleaner, safer, and greener homes and businesses in Los Angeles.
-                    We provide top-tier residential and commercial pressure washing services—reliable, affordable, and always eco-friendly.
-                </p>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="/static/images/tempestwashco.jpg"
+                         alt="Eco-friendly pressure washing in Santa Monica and Los Angeles County"
+                         class="img-fluid rounded shadow">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="h4 mb-3">Our Story</h2>
+                    <p>
+                        Tempest Wash Co was founded by two passionate professionals on a mission to bring clean, safe,
+                        and sustainable pressure washing to homes and businesses across all of Los Angeles County and
+                        Orange County.
+                        From Santa Monica to Sherman Oaks, we’ve built a reputation for quality, care, and green
+                        practices.
+                    </p>
 
-                <h3 class="h5 mt-4">Why Choose Us?</h3>
-                <ul class="list-unstyled mt-3">
-                    <li><i class="fas fa-check-circle text-success me-2"></i> Locally owned & fully insured</li>
-                    <li><i class="fas fa-check-circle text-success me-2"></i> Friendly, background-checked technicians</li>
-                    <li><i class="fas fa-check-circle text-success me-2"></i> Biodegradable & non-toxic cleaning products</li>
-                    <li><i class="fas fa-check-circle text-success me-2"></i> Flexible 7-day scheduling with online booking</li>
-                    <li><i class="fas fa-check-circle text-success me-2"></i> 100% satisfaction guarantee—every time</li>
-                </ul>
+                    <h3 class="h5 mt-4">Why Choose Tempest Wash Co?</h3>
+                    <ul class="list-unstyled mt-3">
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Fully insured & locally owned in Santa
+                            Monica
+                        </li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Friendly, trained, background-checked
+                            technicians
+                        </li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Only biodegradable & non-toxic
+                            products
+                        </li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Fast, flexible scheduling 7 days a
+                            week
+                        </li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> 100% satisfaction guarantee on every
+                            job
+                        </li>
+                    </ul>
 
-                <h3 class="h5 mt-4">What We Clean</h3>
-                <p>
-                    We handle everything from <strong>driveways</strong>, <strong>patios</strong>, and <strong>fences</strong> to <strong>commercial storefronts</strong> and <strong>graffiti removal</strong>. Our advanced equipment and eco-friendly techniques ensure results that last.
-                </p>
+                    <h3 class="h5 mt-4">Areas We Serve</h3>
+                    <p>
+                        We proudly serve all of Los Angeles County and parts of Orange County including: <strong>Santa
+                        Monica</strong>, <strong>Los Angeles</strong>, <strong>Inglewood</strong>, <strong>Sherman
+                        Oaks</strong>, <strong>Culver City</strong>, <strong>Beverly Hills</strong>,
+                        <strong>Pasadena</strong>, <strong>Long Beach</strong>, <strong>Torrance</strong>, <strong>West
+                        LA</strong>, <strong>Marina del Rey</strong>, <strong>Orange County</strong>,
+                        <strong>Irvine</strong>, <strong>Anaheim</strong>, <strong>Anaheim</strong> and more.
+                    </p>
 
-                <a href="/contact" class="btn btn-primary btn-lg mt-4">
-                    <i class="fas fa-phone"></i> Request a Free Quote
-                </a>
+                    <h3 class="h5 mt-4">What We Clean</h3>
+                    <p>
+                        Whether it’s a <strong>driveway</strong> in Inglewood, a <strong>patio</strong> in West
+                        Hollywood, or <strong>roof soft washing</strong> in Irvine, we’ve got it covered. We specialize
+                        in residential & commercial pressure washing, including <strong>storefronts</strong>, <strong>fences</strong>,
+                        <strong>stucco walls</strong>, and <strong>graffiti removal</strong>.
+                    </p>
+
+                    <a href="/contact" class="btn btn-primary btn-lg mt-4">
+                        <i class="fas fa-phone"></i> Get Your Free Quote
+                    </a>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="row mt-5">
-        </div>
-    </div>
-</section>
 {% endblock %}

@@ -330,6 +330,16 @@ async def verify_code(request: Request, code: str = Form(...)):
         return templates.TemplateResponse("verify.html", {"request": request, "error": "Invalid passcode"})
 
 
+@app.get("/privacy-policy", response_class=HTMLResponse)
+async def privacy_policy(request: Request):
+    return templates.TemplateResponse("privacy.html", {"request": request})
+
+
+@app.get("/terms", response_class=HTMLResponse)
+async def terms_of_use(request: Request):
+    return templates.TemplateResponse("terms_of_service.html", {"request": request})
+
+
 @app.get("/how-to-estimate", response_class=HTMLResponse)
 async def how_to_estimate(request: Request):
     return templates.TemplateResponse("how_to_estimate.html", {"request": request})

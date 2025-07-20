@@ -1,60 +1,69 @@
 <!-- templates/base.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tempest Wash Co Cleaning Services - {% block title %}{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/styles.css">
+
+    <title>{% block title %}Tempest Wash Co | LA Pressure Washing Services{% endblock %}</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    <!-- SEO Title & Meta -->
+    <!-- SEO Meta -->
     <meta name="description"
-          content="Tempest Wash Co offers professional pressure washing services in Los Angeles. We clean driveways, storefronts, windows, and more using eco-friendly methods.">
+          content="{% block description %}Professional pressure washing in Los Angeles, Santa Monica, and surrounding areas. Driveways, homes, and commercial buildings cleaned eco-friendly.{% endblock %}">
     <meta name="keywords"
-          content="pressure washing Los Angeles, driveway cleaning, commercial pressure wash, eco-friendly exterior cleaning, soft washing LA, window cleaning">
+          content="pressure washing Los Angeles, Santa Monica driveway cleaning, exterior house soft washing, commercial power washing, eco-friendly cleaners LA, window washing, soft wash Los Angeles, Inglewood graffiti removal">
     <meta name="author" content="Tempest Wash Co">
-    <link rel="canonical" href="https://www.tempestwashco.com/">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.tempestwashco.com{{ request.path }}">
 
-    <!-- Open Graph / Facebook -->
+    <!-- Social Meta -->
+    <meta property="og:type" content="website">
     <meta property="og:title" content="Tempest Wash Co | Expert Pressure Washing in Los Angeles">
     <meta property="og:description"
-          content="Eco-friendly, professional pressure washing for homes and businesses across LA. Get spotless results with Tempest Wash Co.">
-    <meta property="og:type" content="website">
+          content="Eco-friendly pressure washing company serving all of LA and OC. Driveways, houses, storefronts, and more.">
     <meta property="og:url" content="https://www.tempestwashco.com/">
     <meta property="og:image" content="https://www.tempestwashco.com/static/images/og-image.jpg">
-    <!-- Add your logo or header image -->
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tempest Wash Co | Pressure Washing Services in Los Angeles">
+    <meta name="twitter:title" content="Tempest Wash Co | LA Pressure Washing Services">
     <meta name="twitter:description"
-          content="Eco-conscious and effective cleaning services for residential and commercial properties in LA.">
-    <meta name="twitter:image" content="https://www.tempestwashco.com/static/images/og-image.jpg"> <!-- Same image -->
+          content="We clean homes, patios, buildings and more using safe, eco-friendly pressure washing. Serving Los Angeles and OC.">
+    <meta name="twitter:image" content="https://www.tempestwashco.com/static/images/og-image.jpg">
 
+    <!-- Theme & Branding -->
+    <meta name="theme-color" content="#0d6efd">
+
+    <!-- Styles & Fonts -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
+
+    {% block head_extra %}{% endblock %}
 </head>
 
 <body>
+
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top py-3">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top py-3" aria-label="Main navigation">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="/">
-            <i class="fa-solid fa-sparkle me-2"></i>
+            <i class="fa-solid fa-sparkle me-2" aria-hidden="true"></i>
             <span class="fw-bold">Tempest Wash Co</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
                 <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
                 <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                 <li class="nav-item"><a class="nav-link" href="/quote">Free Estimates</a></li>
@@ -68,7 +77,7 @@
     </div>
 </nav>
 
-<!-- Content Block -->
+<!-- Content -->
 <main>
     {% block content %}{% endblock %}
 </main>
@@ -85,11 +94,12 @@
                     Los Angeles. Using eco-friendly products and skilled technicians, we ensure flawless, reliable
                     results every time.</p>
                 <div class="d-flex mt-4">
-                    <a href="#" class="text-white me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
-                    <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-lg"></i></a>
-                    <a href="https://www.instagram.com/tempestwashco/" class="text-white me-3"><i
+                    <a href="#" class="text-white me-3" aria-label="Facebook"><i
+                            class="fab fa-facebook-f fa-lg"></i></a>
+                    <a href="#" class="text-white me-3" aria-label="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="https://www.instagram.com/tempestwashco/" class="text-white me-3" aria-label="Instagram"><i
                             class="fab fa-instagram fa-lg"></i></a>
-                    <a href="#" class="text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    <a href="#" class="text-white" aria-label="LinkedIn"><i class="fab fa-linkedin-in fa-lg"></i></a>
                 </div>
             </div>
             <div class="col-lg-2 col-md-4 mb-4">
@@ -104,51 +114,40 @@
             <div class="col-lg-3 col-md-4 mb-4">
                 <h5 class="mb-3">Services</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><a href="/services/residential" class="text-white text-decoration-none">Residential
-                        Cleaning</a></li>
-                    <li class="mb-2"><a href="/services/commercial" class="text-white text-decoration-none">Commercial
-                        Cleaning</a></li>
+                    <li class="mb-2"><a href="/services/residential"
+                                        class="text-white text-decoration-none">Residential</a></li>
+                    <li class="mb-2"><a href="/services/commercial"
+                                        class="text-white text-decoration-none">Commercial</a></li>
                     <li class="mb-2"><a href="/services/window-cleaning" class="text-white text-decoration-none">Window
-                        Cleaning</a>
-                    </li>
+                        Cleaning</a></li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-4">
                 <h5 class="mb-3">Contact Us</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-3">
-                        <i class="fas fa-map-marker-alt me-2"></i>
-                        1948 20th Street, Los Angeles, CA 90404
+                    <li class="mb-3"><i class="fas fa-map-marker-alt me-2"></i> 1948 20th Street, Los Angeles, CA 90404
                     </li>
-                    <li class="mb-3">
-                        <i class="fas fa-phone me-2"></i>
-                        (310) 800-2444
-                    </li>
-                    <li class="mb-3">
-                        <i class="fas fa-envelope me-2"></i>
-                        info@tempestwashco.com
-                    </li>
-                    <li>
-                        <i class="fas fa-clock me-2"></i>
-                        Mon-Sat: 6:30AM - 9PM, Sun: 9AM - 7PM
-                    </li>
+                    <li class="mb-3"><i class="fas fa-phone me-2"></i> (310) 800-2444</li>
+                    <li class="mb-3"><i class="fas fa-envelope me-2"></i> info@tempestwashco.com</li>
+                    <li><i class="fas fa-clock me-2"></i> Mon-Sat: 6:30AM - 9PM, Sun: 9AM - 7PM</li>
                 </ul>
             </div>
         </div>
         <hr class="my-4 bg-light">
         <div class="row align-items-center">
             <div class="col-md-6 mb-3 mb-md-0">
-                <p class="mb-0">&copy; {{ current_year }} Tempest Wash Co Cleaning Services. All rights reserved.</p>
+                <p class="mb-0">&copy; {{ current_year }} Tempest Wash Co. All rights reserved.</p>
             </div>
             <div class="col-md-6 text-md-end">
-                <a href="#" class="text-white me-3 text-decoration-none">Privacy Policy</a>
-                <a href="#" class="text-white text-decoration-none">Terms of Service</a>
+                <a href="/privacy-policy" class="text-white me-3 text-decoration-none">Privacy Policy</a>
+                <a href="/terms" class="text-white text-decoration-none">Terms of Service</a>
             </div>
         </div>
     </div>
 </footer>
 
+<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/static/main.js"></script>
+<script src="/static/main.js" defer></script>
 </body>
 </html>
