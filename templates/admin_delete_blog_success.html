@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Deleted - {{ title }}{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-white text-center">
+  <div class="container" style="max-width: 600px;">
+    <h1 class="mb-4 fw-bold text-success">Blog Post Deleted</h1>
+    <p>The blog post titled <strong>{{ title }}</strong> has been successfully deleted.</p>
+    <a href="/admin/delete-blog" class="btn btn-primary">Back to Delete List</a>
+  </div>
+</section>
+{% endblock %}

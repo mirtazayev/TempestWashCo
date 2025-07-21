@@ -3,63 +3,56 @@
 {% block title %}Terms of Service - Tempest Wash Co{% endblock %}
 
 {% block content %}
-<section class="py-5" style="background-color: #f9fafb;">
-  <div class="container p-5 bg-white rounded shadow-sm" style="max-width: 700px; border: 1px solid #e0e0e0;">
-    <h1 class="mb-4 fw-bold text-dark border-bottom pb-2" style="border-color: #007bff;">
+<section class="py-5 bg-light">
+  <div class="container" style="max-width: 800px;">
+    <h1 class="mb-4 fw-bold text-dark border-bottom pb-3" style="border-color: #0d6efd;">
       Terms of Service
     </h1>
 
-    <p class="mb-4" style="font-size: 1.1rem; line-height: 1.6;">
+    <p class="mb-5 fs-5 text-secondary">
       Welcome to <strong>Tempest Wash Co</strong>. These Terms of Service (“Terms”) govern your use of our website and services. By accessing or using our services, you agree to comply with these Terms.
     </p>
 
-    <h2 class="mt-5 fw-semibold text-primary d-flex align-items-center" style="border-bottom: 2px solid #007bff; padding-bottom: 6px;">
-      <span style="font-size: 1.5rem; margin-right: 8px;">✅</span> Acceptance of Terms
-    </h2>
-    <p class="mt-3" style="font-size: 1.05rem; line-height: 1.6;">
+    {% macro section(icon_class, title, content) %}
+    <div class="mb-5">
+      <h2 class="fw-semibold text-primary d-flex align-items-center border-bottom pb-2" style="border-color: #0d6efd;">
+        <i class="{{ icon_class }} me-2" style="font-size: 1.4rem;"></i> {{ title }}
+      </h2>
+      <div class="mt-3 fs-6 text-dark lh-lg">
+        {{ content | safe }}
+      </div>
+    </div>
+    {% endmacro %}
+
+    {{ section("bi bi-check-circle-fill", "Acceptance of Terms", "
       By using our website or services, you agree to these Terms and our Privacy Policy. If you do not agree, please do not use our services.
-    </p>
+    ") }}
 
-    <h2 class="mt-5 fw-semibold text-primary d-flex align-items-center" style="border-bottom: 2px solid #007bff; padding-bottom: 6px;">
-      <span style="font-size: 1.5rem; margin-right: 8px;">📋</span> Services Description
-    </h2>
-    <p class="mt-3" style="font-size: 1.05rem; line-height: 1.6;">
+    {{ section("bi bi-card-text", "Services Description", "
       Tempest Wash Co provides professional pressure washing services for residential and commercial properties. We strive to deliver high-quality service but do not guarantee specific results due to factors beyond our control.
-    </p>
+    ") }}
 
-    <h2 class="mt-5 fw-semibold text-primary d-flex align-items-center" style="border-bottom: 2px solid #007bff; padding-bottom: 6px;">
-      <span style="font-size: 1.5rem; margin-right: 8px;">💳</span> Payment and Pricing
-    </h2>
-    <p class="mt-3" style="font-size: 1.05rem; line-height: 1.6;">
+    {{ section("bi bi-credit-card", "Payment and Pricing", "
       All pricing is subject to change without prior notice. Payment is due upon completion of services unless otherwise agreed. We accept cash, credit cards, and other payment methods as specified.
-    </p>
+    ") }}
 
-    <h2 class="mt-5 fw-semibold text-primary d-flex align-items-center" style="border-bottom: 2px solid #007bff; padding-bottom: 6px;">
-      <span style="font-size: 1.5rem; margin-right: 8px;">⚠️</span> Limitations and Liability
-    </h2>
-    <p class="mt-3" style="font-size: 1.05rem; line-height: 1.6;">
+    {{ section("bi bi-exclamation-triangle-fill", "Limitations and Liability", "
       While we take care in performing our services, Tempest Wash Co is not liable for any indirect, incidental, or consequential damages resulting from the use of our services. You agree to indemnify and hold us harmless from any claims arising out of your use of our services.
-    </p>
+    ") }}
 
-    <h2 class="mt-5 fw-semibold text-primary d-flex align-items-center" style="border-bottom: 2px solid #007bff; padding-bottom: 6px;">
-      <span style="font-size: 1.5rem; margin-right: 8px;">🔄</span> Changes to Terms
-    </h2>
-    <p class="mt-3" style="font-size: 1.05rem; line-height: 1.6;">
+    {{ section("bi bi-arrow-repeat", "Changes to Terms", "
       We may update these Terms from time to time. Continued use of our services after changes indicates your acceptance of the updated Terms.
-    </p>
+    ") }}
 
-    <h2 class="mt-5 fw-semibold text-primary d-flex align-items-center" style="border-bottom: 2px solid #007bff; padding-bottom: 6px;">
-      <span style="font-size: 1.5rem; margin-right: 8px;">📞</span> Contact Information
-    </h2>
-    <p class="mt-3" style="font-size: 1.05rem; line-height: 1.6;">
+    {{ section("bi bi-telephone-fill", "Contact Information", "
       If you have questions about these Terms, please contact us:
-    </p>
-    <ul style="list-style: none; padding-left: 0;">
-      <li class="mb-2"><strong>Email:</strong> info@tempestwashco.com</li>
-      <li class="mb-2"><strong>Phone:</strong> (310) 800-2444</li>
-    </ul>
+      <ul class='mt-3 ps-3'>
+        <li><strong>Email:</strong> info@tempestwashco.com</li>
+        <li><strong>Phone:</strong> (310) 800-2444</li>
+      </ul>
+    ") }}
 
-    <p class="mt-5 text-muted" style="font-size: 0.9rem; font-style: italic;">
+    <p class="text-muted small fst-italic mt-5">
       Last updated: July 2025
     </p>
   </div>

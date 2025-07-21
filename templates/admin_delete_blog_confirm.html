@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Confirm Delete - {{ post.title }}{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-white">
+  <div class="container" style="max-width: 600px;">
+    <h1 class="mb-4 fw-bold text-danger">Confirm Delete</h1>
+    <p>Are you sure you want to delete the blog post titled:</p>
+    <h3>{{ post.title }}</h3>
+    <p><small>Published on {{ post.created_at.strftime('%B %d, %Y') }}</small></p>
+
+    {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="post">
+      <div class="mb-3">
+        <label for="secret_code" class="form-label">Enter Admin Secret Code to Confirm</label>
+        <input type="password" class="form-control" id="secret_code" name="secret_code" required>
+      </div>
+      <button type="submit" class="btn btn-danger">Delete Blog Post</button>
+      <a href="/admin/delete-blog" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+  </div>
+</section>
+{% endblock %}

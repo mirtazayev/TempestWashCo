@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Error - Tempest Wash Co{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+  <div class="container" style="max-width: 600px; text-align: center;">
+    <h1 class="display-4 fw-bold text-danger mb-4">Oops! Something went wrong.</h1>
+    <p class="lead text-muted mb-4">
+      {% if error_message %}
+        {{ error_message }}
+      {% else %}
+        An unexpected error occurred. Please try again later.
+      {% endif %}
+    </p>
+    <a href="/" class="btn btn-primary btn-lg">Back to Home</a>
+  </div>
+</section>
+{% endblock %}

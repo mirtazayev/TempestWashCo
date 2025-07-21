@@ -729,3 +729,32 @@ footer a:hover {
     transform: translateY(-5px);
     box-shadow: 0 0 15px rgba(0, 123, 255, 0.2);
 }
+
+.blog-content h2, .blog-content h3, .blog-content h4 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.blog-content p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.blog-content ul, .blog-content ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.blog-content pre {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.blog-content code {
+    background-color: #eee;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: monospace;
+}

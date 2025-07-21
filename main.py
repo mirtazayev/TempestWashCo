@@ -7,18 +7,26 @@ from email.message import EmailMessage
 from typing import List, Optional
 
 import aiosmtplib
+import frontmatter
+import markdown
 import uvicorn
+from bs4 import BeautifulSoup
 from fastapi import FastAPI, Request, Form
+from fastapi import File, UploadFile, HTTPException, Depends
 from fastapi import status
+from fastapi.exception_handlers import http_exception_handler
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import EmailStr, BaseModel
+from slugify import slugify
+from sqlalchemy.orm import Session
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import JSONResponse
 
+from database import get_db, init_db
+from models.blog import BlogPost
 from services.invoice_func import generate_pdf
-from services.quoting_func import calculate_quote
 
 app = FastAPI(
     title="Tempest Wash Co Cleaning Services",
@@ -32,6 +40,8 @@ templates = Jinja2Templates(directory="templates")
 app.add_middleware(SessionMiddleware, secret_key="verymyrandomlongkey2025abc", max_age=10)
 # Add global template variables
 templates.env.globals["current_year"] = datetime.now().year
+
+ADMIN_SECRET_CODE = "1234"  # Change to your secure code or better store in env var
 
 
 class ContactForm(BaseModel):
@@ -235,7 +245,7 @@ TESTIMONIALS = [
      "text": "Highly recommend for anyone needing pressure washing in LA!",
      "image": "tempestwashco.jpg"},
     {"name": "Emma Thompson", "rating": 5,
-     "text": "Excellent service from start to finish! The team at Tempest Wash Co was thorough and careful with my home’s exterior. I love that they use environmentally safe cleaning solutions. My house looks spotless!",
+     "text": "Excellent service from start to finish! The team at Tempest Wash was thorough and careful with my home’s exterior. My house looks spotless!",
      "image": "tempestwashco.jpg"},
 ]
 
@@ -314,6 +324,103 @@ async def services_commercial(request: Request):
 @app.get("/services/window-cleaning", response_class=HTMLResponse)
 async def services_window_cleaning(request: Request):
     return templates.TemplateResponse("window-cleaning.html", {"request": request})
+
+
+@app.get("/admin/upload-blog-md", response_class=HTMLResponse)
+async def get_upload_page(request: Request):
+    return templates.TemplateResponse("admin_upload_blog.html", {"request": request})
+
+
+@app.post("/admin/upload-blog-md")
+async def upload_blog_md(
+        file: UploadFile = File(...),
+        secret_code: str = Form(...),
+        db: Session = Depends(get_db)
+):
+    if secret_code != ADMIN_SECRET_CODE:
+        raise HTTPException(status_code=403, detail="Unauthorized: Invalid secret code")
+
+    if not file.filename.endswith(".md"):
+        raise HTTPException(status_code=400, detail="Only Markdown files allowed")
+
+    contents = await file.read()
+    text = contents.decode("utf-8")
+
+    post = frontmatter.loads(text)
+    meta = post.metadata
+
+    title = meta.get("title")
+    created_at_str = meta.get("created_at")
+    slug = meta.get("slug")
+
+    if not title:
+        raise HTTPException(status_code=400, detail="Missing title in frontmatter")
+
+    if not slug:
+        slug = slugify(title)
+
+    try:
+        created_at = datetime.strptime(created_at_str, "%Y-%m-%d") if created_at_str else datetime.utcnow()
+    except:
+        created_at = datetime.utcnow()
+
+    markdown_content = post.content
+
+    existing = db.query(BlogPost).filter(BlogPost.slug == slug).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Slug already exists")
+
+    blog_post = BlogPost(
+        title=title,
+        slug=slug,
+        content=markdown_content,
+        created_at=created_at
+    )
+
+    db.add(blog_post)
+    db.commit()
+    db.refresh(blog_post)
+
+    return {"message": "Blog uploaded", "slug": slug}
+
+
+@app.get("/blog", response_class=HTMLResponse)
+async def blog_list(request: Request, db: Session = Depends(get_db)):
+    posts = db.query(BlogPost).order_by(BlogPost.created_at.desc()).all()
+
+    def create_excerpt(md_text, length=75):
+        # Convert markdown to HTML
+        html = markdown.markdown(md_text, extensions=['extra', 'codehilite', 'toc', 'tables', 'fenced_code'])
+        # Strip tags and get plain text using BeautifulSoup
+        soup = BeautifulSoup(html, 'html.parser')
+        text = soup.get_text()
+        # Truncate text to desired length
+        excerpt_text = (text[:length] + '...') if len(text) > length else text
+        return excerpt_text
+
+    # Add an 'excerpt' attribute to each post object dynamically
+    for post in posts:
+        post.excerpt = create_excerpt(post.content)
+
+    return templates.TemplateResponse("blog.html", {"request": request, "posts": posts})
+
+
+@app.get("/blog/{slug}", response_class=HTMLResponse)
+async def blog_detail(request: Request, slug: str, db: Session = Depends(get_db)):
+    post = db.query(BlogPost).filter(BlogPost.slug == slug).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Blog post not found")
+
+    content_html = markdown.markdown(
+        post.content,
+        extensions=['extra', 'codehilite', 'toc', 'tables', 'fenced_code']
+    )
+
+    return templates.TemplateResponse("blog_detail.html", {
+        "request": request,
+        "post": post,
+        "content_html": content_html
+    })
 
 
 @app.get("/verify", response_class=HTMLResponse)
@@ -539,10 +646,66 @@ async def send_email_endpoint(
     return RedirectResponse("/", status_code=303)
 
 
+# 1. Show all blog posts with delete links
+@app.get("/admin/delete-blog", response_class=HTMLResponse)
+async def delete_blog_list(request: Request, db: Session = Depends(get_db)):
+    posts = db.query(BlogPost).order_by(BlogPost.created_at.desc()).all()
+    return templates.TemplateResponse("admin_delete_blog_list.html", {"request": request, "posts": posts})
+
+
+# 2. Show confirmation form to enter code before deleting
+@app.get("/admin/delete-blog/{slug}", response_class=HTMLResponse)
+async def delete_blog_confirm(request: Request, slug: str, db: Session = Depends(get_db)):
+    post = db.query(BlogPost).filter(BlogPost.slug == slug).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Blog post not found")
+    return templates.TemplateResponse("admin_delete_blog_confirm.html", {"request": request, "post": post})
+
+
+# 3. Handle form submission and delete if code is valid
+@app.post("/admin/delete-blog/{slug}")
+async def delete_blog_post(request: Request, slug: str, secret_code: str = Form(...), db: Session = Depends(get_db)):
+    if secret_code != ADMIN_SECRET_CODE:
+        # Show error page or return with error message
+        return templates.TemplateResponse(
+            "admin_delete_blog_confirm.html",
+            {"request": request, "post": db.query(BlogPost).filter(BlogPost.slug == slug).first(),
+             "error": "Invalid secret code"},
+            status_code=403,
+        )
+    post = db.query(BlogPost).filter(BlogPost.slug == slug).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Blog post not found")
+    db.delete(post)
+    db.commit()
+    return templates.TemplateResponse("admin_delete_blog_success.html", {"request": request, "title": post.title})
+
+
 # 404 Error Handler
 @app.exception_handler(404)
 async def not_found_handler(request: Request, exc):
     return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
+
+
+@app.exception_handler(HTTPException)
+async def custom_http_exception_handler(request: Request, exc: HTTPException):
+    # For certain status codes, render the error template
+    if exc.status_code in {403, 404, 500}:
+        return templates.TemplateResponse(
+            "error.html",
+            {
+                "request": request,
+                "error_message": exc.detail
+            },
+            status_code=exc.status_code,
+        )
+    # For other HTTPExceptions fallback to default JSON response
+    return await http_exception_handler(request, exc)
+
+
+@app.on_event("startup")
+async def on_startup():
+    init_db()
 
 
 if __name__ == "__main__":
